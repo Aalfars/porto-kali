@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfaaaaaaaa Landing</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Hanya desktop pakai custom cursor */
+        @media (pointer: fine) {
+            body {
+                cursor: none;
+            }
+        }
+
+        .sosmed-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .sosmed-item:hover {
+            color: #00ffe0;
+            /* warna hover ambient sesuai tema */
+        }
+
+        /* ambience */
+        .bg-ambient {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 150, 0.08), transparent 50%);
+            z-index: 0;
+
+        }
+
+        .bg-ambient {
+            pointer-events: none;
+        }
+
+
+        /* text tengah */
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(1.5rem, 5vw, 5rem);
+            font-weight: 800;
+            text-align: center;
+            z-index: 2;
+            padding: 0 15px;
+            line-height: 1.3;
+        }
+
+        /* logo floating */
+        .logo {
+            position: absolute;
+            width: clamp(30px, 6vw, 70px);
+            opacity: 0.7;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* posisi logo (relative aman di semua device) */
+        .l1 {
+            top: 15%;
+            left: 5%;
+        }
+
+        .l2 {
+            top: 75%;
+            left: 10%;
+        }
+
+        .l3 {
+            top: 25%;
+            right: 10%;
+        }
+
+        .l4 {
+            top: 80%;
+            right: 15%;
+        }
+
+        .l5 {
+            top: 55%;
+            left: 45%;
+        }
+
+        /* posisi tambahan logo */
+        .l6 {
+            top: 15%;
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .l7 {
+            top: 70%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .l8 {
+            top: 35%;
+            left: 80%;
+            animation-delay: 3s;
+        }
+
+        .l9 {
+            top: 60%;
+            left: 75%;
+            animation-delay: 4s;
+        }
+
+        .l10 {
+            top: 20%;
+            left: 40%;
+            animation-delay: 5s;
+        }
+
+        .logo {
+            position: absolute;
+            width: 60px;
+            opacity: 0.15;
+            /* bikin transparan */
+            filter: grayscale(100%) brightness(0.9);
+            animation: float 6s ease-in-out infinite;
+            transition: 0.3s;
+            pointer-events: none;
+            /* biar cursor gak ke-distract */
+        }
+
+        .logo:hover {
+            opacity: 0.5;
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.15);
+        }
+
+        /* cursor kecil */
+        .cursor {
+            position: fixed;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            transition: 0.2s ease;
+            display: none;
+        }
+
+        /* aktifkan cursor hanya di desktop */
+        @media (pointer: fine) {
+            .cursor {
+                display: block;
+            }
+        }
+
+        /* cursor besar */
+        .cursor.big {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        /* SECTION SKILL */
+        .skill-section {
+            position: relative;
+            margin-top: -120px;
+            /* sedikit overlap ke hero */
+            z-index: 3;
+        }
+
+
+        /* avatar */
+        .avatar-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* skill box */
+        .skill-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* item */
+        .skill-item {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* bar */
+        .bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffe0, #00aaff);
+            border-radius: 10px;
+        }
+
+        /* level warna */
+        .level {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+
+        .level.expert {
+            background: #00ff9d33;
+            color: #00ff9d;
+        }
+
+        .level.middle {
+            background: #ffd00033;
+            color: #ffd000;
+        }
+
+        .level.beginner {
+            background: #ff4d4d33;
+            color: #ff4d4d;
+        }
+
+        /* MOBILE FIX */
+        @media (max-width: 768px) {
+            .skill-section {
+                position: relative;
+                bottom: unset;
+                margin-top: 40px;
+                transform: none;
+                padding: 0 15px;
+            }
+
+            body {
+                overflow-x: hidden;
+            }
+        }
+
+        .project-section {
+            margin-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        /* card glass */
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: 0.3s ease;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+        }
+
+        /* image */
+        .project-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        /* text */
+        .project-card h5 {
+            font-weight: 600;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            /* ini kunci fix */
+            overflow: hidden;
+        }
+
+        /* CONTACT SECTION */
+        .contact-section {
+            background: #0f172a;
+            color: #fff;
+        }
+
+        .contact-card,
+        .sosmed-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .contact-card:hover,
+        .sosmed-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* SOSMED ITEM */
+        .sosmed-item {
+            display: block;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sosmed-item:hover {
+            background: #6366f1;
+            transform: translateX(5px);
+        }
+
+        /* QUOTES */
+        .quotes-section {
+            background: linear-gradient(135deg, #020617, #0f172a);
+            color: #fff;
+        }
+
+        .quotes-box {
+            max-width: 600px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .quotes-box:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero-section">
+        <div class="bg-ambient"></div>
+
+        <!-- floating logos -->
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" class="logo l1">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+            class="logo l2">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" class="logo l3">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" class="logo l4">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="logo l5">
+        <!-- tambahan logo -->
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
+            class="logo l6">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" class="logo l7">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="logo l8">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" class="logo l9">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+            class="logo l10">
+
+        <div class="center-text" id="mainText">
+            Iya ini aku Alfaaaaaaaaaaaaaaa
+        </div>
+    </section>
+
+    <div class="skill-section container">
+        <div class="row justify-content-center align-items-center g-4">
+
+            <!-- FOTO -->
+            <div class="col-12 col-md-4 text-center">
+                <div class="avatar-box">
+                    <img src="image1.jpeg" class="avatar-img">
+                    <h5 class="mt-3">Alfaaaaaaaa</h5>
+                    <small class="text-secondary">Fullstack Developer</small>
+                </div>
+            </div>
+
+            <!-- SKILL -->
+            <div class="col-12 col-md-6">
+                <div class="skill-box">
+
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Laravel</span>
+                            <span class="level expert">Expert</span>
+                        </div>
+                        <div class="bar">
+                            <div class="fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>JavaScript</span>
+                            <span class="level middle">Middle</span>
+                        </div>
+                        <div class="bar">
+                            <div class="fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Bootstrap</span>
+                            <span class="level middle">Middle</span>
+                        </div>
+                        <div class="bar">
+                            <div class="fill" style="width: 70%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between">
+                            <span>DevOps / VPS</span>
+                            <span class="level beginner">Beginner</span>
+                        </div>
+                        <div class="bar">
+                            <div class="fill" style="width: 40%"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <section class="project-section container py-5">
+
+        <h2 class="text-center mb-5 fw-bold">🚀 My Projects</h2>
+
+        <div class="row g-4">
+
+            <!-- Project 1 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="richzspot.png" class="project-img">
+
+                    <div class="p-3">
+                        <h5>System Absensi App - RichzSpot</h5>
+                        <p class="small text-secondary">
+                            Aplikasi absensi berbasis web dengan fitur voucher, tracking realtime, dan laporan otomatis.
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Laravel</span>
+                            <span class="badge bg-info text-dark">Bootstrap</span>
+                            <span class="badge bg-warning text-dark">MySQL</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="https://picsum.photos/500/300?sig=2" class="project-img">
+
+                    <div class="p-3">
+                        <h5>Topup & Voucher System</h5>
+                        <p class="small text-secondary">
+                            Sistem topup digital dengan validasi voucher otomatis dan generator invoice untuk transaksi
+                            online.
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-success">PHP Native</span>
+                            <span class="badge bg-warning text-dark">JavaScript</span>
+                            <span class="badge bg-info text-dark">Bootstrap</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="erp_gbp.png" class="project-img">
+
+                    <div class="p-3">
+                        <h5>ERP System</h5>
+                        <p class="small text-secondary">
+                            Enterprise Resource Planning untuk manajemen inventory, penjualan, dan laporan bisnis secara
+                            realtime.
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-primary">CI 3</span>
+                            <span class="badge bg-dark">Linux</span>
+                            <span class="badge bg-secondary">VPS</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="crm.png" class="project-img">
+
+                    <div class="p-3">
+                        <h5>CRM - Customer Relationship Management</h5>
+                        <p class="small text-secondary">
+                            Aplikasi CRM untuk mengelola data pelanggan, interaksi, dan laporan performa tim sales.
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Laravel</span>
+                            <span class="badge bg-info text-dark">Bootstrap</span>
+                            <span class="badge bg-warning text-dark">MySQL</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="logbook.png" class="project-img">
+
+                    <div class="p-3">
+                        <h5>Log Book</h5>
+                        <p class="small text-secondary">
+                            A task-tracking and reporting platform designed for internal team use. It enables employees
+                            to log daily work, submit progress updates, and view weekly reports. Built with PHP native
+                            and optimized with AJAX.
+
+
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-primary">CI 3</span>
+                            <span class="badge bg-warning text-dark">Bootstrap</span>
+                            <span class="badge bg-success">MySQL</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="project-card">
+                    <img src="crm.png" class="project-img">
+
+                    <div class="p-3">
+                        <h5>CMS - Content Management System</h5>
+                        <p class="small text-secondary">
+                            Sistem CMS sederhana untuk mengelola konten website, halaman, dan artikel dengan
+                            user-friendly dashboard.
+                        </p>
+
+                        <div class="mb-2">
+                            <span class="badge bg-primary">CI 3</span>
+                            <span class="badge bg-info text-dark">Bootstrap</span>
+                            <span class="badge bg-success">PostgreSQL</span>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
+                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="contact-section py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Contact -->
+                <div class="col-md-6">
+                    <div class="contact-card p-4 h-100">
+                        <h3 class="mb-3">Contact Me</h3>
+                        <p>Kalau kamu tertarik kerja sama atau ingin diskusi project, feel free hubungi saya.</p>
+
+                        <ul class="list-unstyled mt-4">
+                            <li>📧 Email: aalfarss173@gmail.com</li>
+                            <li>📱 WhatsApp: +62 812 xxxx xxxx</li>
+                            <li>📍 Location: Karanganyar,Jawa tengah</li>
+                        </ul>
+
+                        <a href="#" class="btn btn-primary mt-3">Text Me</a>
+                    </div>
+                </div>
+
+                <!-- Sosial Media -->
+                <div class="col-md-6">
+                    <div class="sosmed-card p-4 h-100">
+                        <h3 class="mb-3">Follow Me</h3>
+                        <p>Temukan saya di platform berikut:</p>
+
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <a href="#" class="sosmed-item"><i class="fas fa-globe"></i> Website</a>
+                            <a href="https://www.linkedin.com/in/ahmad-alfarisi-/" class="sosmed-item"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/Aalfars" class="sosmed-item"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://www.instagram.com/aalfars_/" target="_blank" class="sosmed-item"><i class="fab fa-instagram"></i> Instagram</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="quotes-section py-5 text-center">
+        <div class="container">
+            <div class="quotes-box mx-auto p-4">
+                <p id="quote-text" class="mb-3">
+                    "Code is like humor. When you have to explain it, it’s bad."
+                </p>
+                <small id="quote-author">– Cory House</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <script>
+        const cursor = document.getElementById("cursor");
+        const text = document.getElementById("mainText");
+
+        // hanya aktif di desktop
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener("mousemove", e => {
+                cursor.style.top = e.clientY + "px";
+                cursor.style.left = e.clientX + "px";
+            });
+
+            text.addEventListener("mouseenter", () => {
+                cursor.classList.add("big");
+            });
+
+            text.addEventListener("mouseleave", () => {
+                cursor.classList.remove("big");
+            });
+        }
+
+    </script>
+    <script>
+        const cards = document.querySelectorAll('.project-card');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        });
+
+        cards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = "translateY(40px)";
+            card.style.transition = "all 0.6s ease";
+            observer.observe(card);
+        });
+    </script>
+    <script>
+        const quotes = [
+            {
+                text: "Code is like humor. When you have to explain it, it’s bad.",
+                author: "Cory House"
+            },
+            {
+                text: "First, solve the problem. Then, write the code.",
+                author: "John Johnson"
+            },
+            {
+                text: "Experience is the name everyone gives to their mistakes.",
+                author: "Oscar Wilde"
+            },
+            {
+                text: "Fix the cause, not the symptom.",
+                author: "Steve Maguire"
+            },
+            {
+                text: "Make it work, make it right, make it fast.",
+                author: "Kent Beck"
+            }
+        ];
+
+        let index = 0;
+
+        setInterval(() => {
+            index = (index + 1) % quotes.length;
+
+            document.getElementById("quote-text").innerText = `"${quotes[index].text}"`;
+            document.getElementById("quote-author").innerText = `– ${quotes[index].author}`;
+
+        }, 4000);
+    </script>
+
+</body>
+
+</html>
