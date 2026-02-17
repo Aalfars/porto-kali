@@ -387,6 +387,12 @@
             transform: scale(1.02);
         }
     </style>
+    <style>
+        #nama {
+            transition: opacity 0.5s ease;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -409,10 +415,35 @@
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" class="logo l9">
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
             class="logo l10">
-
         <div class="center-text" id="mainText">
-            Iya ini aku Alfaaaaaaaaaaaaaaa
+            Iya ini aku <span id="nama">"Alfarisi"</span>
         </div>
+
+        <script>
+            const names = [
+                '"Arufaa"',
+                '"Faris"',
+                '"Ahmad"',
+                '"Ahmad Alfarisi"',
+                '"Apa lagi"'
+            ];
+
+            let index = 0;
+            const namaEl = document.getElementById("nama");
+
+            setInterval(() => {
+                namaEl.style.opacity = 0;
+
+                setTimeout(() => {
+                    index = (index + 1) % names.length;
+                    namaEl.textContent = names[index];
+                    namaEl.style.opacity = 1;
+                }, 500);
+
+            }, 2000);
+        </script>
+
+
     </section>
 
     <div class="skill-section container">
@@ -669,9 +700,12 @@
 
                         <div class="d-flex flex-column gap-3 mt-4">
                             <a href="#" class="sosmed-item"><i class="fas fa-globe"></i> Website</a>
-                            <a href="https://www.linkedin.com/in/ahmad-alfarisi-/" class="sosmed-item"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                            <a href="https://github.com/Aalfars" class="sosmed-item"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="https://www.instagram.com/aalfars_/" target="_blank" class="sosmed-item"><i class="fab fa-instagram"></i> Instagram</a>
+                            <a href="https://www.linkedin.com/in/ahmad-alfarisi-/" class="sosmed-item"><i
+                                    class="fab fa-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/Aalfars" class="sosmed-item"><i class="fab fa-github"></i>
+                                GitHub</a>
+                            <a href="https://www.instagram.com/aalfars_/" target="_blank" class="sosmed-item"><i
+                                    class="fab fa-instagram"></i> Instagram</a>
 
                         </div>
                     </div>
@@ -770,6 +804,5 @@
     </script>
 
 </body>
-
 
 </html>
