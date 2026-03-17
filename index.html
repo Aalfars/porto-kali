@@ -1,809 +1,1113 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alfaaaaaaaa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmad Alfarisi — Fullstack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Unbounded:wght@300;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #080808;
+  --bg2: #0e0e0e;
+  --surface: #141414;
+  --border: #222;
+  --accent: #c8f542;
+  --accent2: #ff5e1f;
+  --muted: #555;
+  --text: #f0f0f0;
+  --text2: #888;
+  --font-display: 'Unbounded', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+}
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+html { scroll-behavior: smooth; }
 
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            overflow-x: hidden;
-        }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
 
-        /* Hanya desktop pakai custom cursor */
-        @media (pointer: fine) {
-            body {
-                cursor: none;
-            }
-        }
+/* ── CUSTOM CURSOR ── */
+.cur-dot {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--accent); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform .1s;
+}
+.cur-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1.5px solid rgba(200,245,66,.5);
+  border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform .15s ease, width .3s, height .3s, border-color .3s;
+}
+body:has(a:hover) .cur-ring,
+body:has(button:hover) .cur-ring {
+  width: 56px; height: 56px;
+  border-color: var(--accent);
+}
 
-        .sosmed-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
+/* ── NOISE OVERLAY ── */
+.noise {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
 
-        .sosmed-item:hover {
-            color: #00ffe0;
-            /* warna hover ambient sesuai tema */
-        }
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 48px;
+  border-bottom: 1px solid transparent;
+  transition: background .4s, border-color .4s;
+}
+nav.scrolled { background: rgba(8,8,8,.9); border-color: var(--border); backdrop-filter: blur(12px); }
+.nav-logo {
+  font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+  letter-spacing: .15em; color: var(--accent); text-decoration: none;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-family: var(--font-mono); font-size: .7rem;
+  color: var(--text2); text-decoration: none; letter-spacing: .1em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-badge {
+  font-family: var(--font-mono); font-size: .65rem;
+  background: var(--accent); color: #000; padding: 4px 10px;
+  border-radius: 2px; letter-spacing: .1em;
+}
 
-        /* ambience */
-        .bg-ambient {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15), transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(0, 255, 150, 0.08), transparent 50%);
-            z-index: 0;
+/* ── HERO ── */
+#hero {
+  position: relative; min-height: 100vh;
+  display: grid; grid-template-rows: 1fr auto;
+  overflow: hidden;
+}
 
-        }
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,245,66,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,245,66,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
 
-        .bg-ambient {
-            pointer-events: none;
-        }
+.hero-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,245,66,.12) 0%, transparent 70%);
+  top: -100px; left: -150px;
+  pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,94,31,.1) 0%, transparent 70%);
+  bottom: 0; right: -100px;
+  pointer-events: none;
+}
 
+.hero-inner {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 140px 48px 60px;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+}
 
-        /* text tengah */
-        .center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: clamp(2.5rem, 5vw, 5rem);
-            font-weight: 800;
-            text-align: center;
-            z-index: 2;
-            padding: 0 15px;
-            line-height: 1.3;
-        }
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: .72rem;
+  color: var(--accent); letter-spacing: .3em;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block; width: 40px; height: 1px; background: var(--accent);
+}
 
-        /* logo floating */
-        .logo {
-            position: absolute;
-            width: clamp(30px, 6vw, 70px);
-            opacity: 0.7;
-            animation: float 6s infinite ease-in-out;
-        }
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 9rem);
+  font-weight: 900; line-height: .92;
+  letter-spacing: -.02em;
+  margin-bottom: 32px;
+}
+.hero-name .line2 { color: var(--accent); }
+.hero-name .line3 {
+  -webkit-text-stroke: 1px rgba(240,240,240,.25);
+  color: transparent;
+}
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
+.hero-desc {
+  font-size: 1.05rem; font-weight: 300;
+  color: var(--text2); max-width: 480px;
+  line-height: 1.8; margin-bottom: 48px;
+}
 
-            50% {
-                transform: translateY(-15px);
-            }
+.hero-cta {
+  display: flex; gap: 16px; flex-wrap: wrap;
+}
+.btn-primary-custom {
+  font-family: var(--font-mono); font-size: .72rem;
+  background: var(--accent); color: #000;
+  padding: 14px 30px; border: none; cursor: none;
+  letter-spacing: .12em; font-weight: 700;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: background .2s, transform .2s;
+  text-decoration: none;
+}
+.btn-primary-custom:hover { background: #d8ff52; transform: translateY(-2px); }
+.btn-outline-custom {
+  font-family: var(--font-mono); font-size: .72rem;
+  background: transparent; color: var(--text);
+  padding: 13px 30px; border: 1px solid var(--border); cursor: none;
+  letter-spacing: .12em;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: border-color .2s, color .2s, transform .2s;
+  text-decoration: none;
+}
+.btn-outline-custom:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-            100% {
-                transform: translateY(0px);
-            }
-        }
+.hero-stats {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  padding: 0 48px;
+}
+.stat-item {
+  padding: 28px 0;
+  border-right: 1px solid var(--border);
+  padding-right: 32px; padding-left: 32px;
+}
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 900;
+  color: var(--accent); line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-mono); font-size: .65rem;
+  color: var(--text2); letter-spacing: .15em; margin-top: 6px;
+}
 
-        /* posisi logo (relative aman di semua device) */
-        .l1 {
-            top: 15%;
-            left: 5%;
-        }
+/* MARQUEE */
+.marquee-section {
+  overflow: hidden; border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface); padding: 14px 0;
+}
+.marquee-track {
+  display: flex; gap: 0;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  font-family: var(--font-display); font-size: .7rem;
+  letter-spacing: .2em; color: var(--text2);
+  padding: 0 40px;
+  display: flex; align-items: center; gap: 16px;
+}
+.marquee-item span { color: var(--accent); font-size: .8rem; }
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 
-        .l2 {
-            top: 75%;
-            left: 10%;
-        }
+/* ── ABOUT ── */
+#about {
+  max-width: 1200px; margin: 0 auto;
+  padding: 120px 48px;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start;
+}
+.about-label {
+  font-family: var(--font-mono); font-size: .65rem;
+  letter-spacing: .3em; color: var(--accent); margin-bottom: 24px;
+}
+.about-heading {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700; line-height: 1.1; margin-bottom: 32px;
+}
+.about-heading em { color: var(--accent); font-style: normal; }
+.about-text {
+  font-size: .95rem; line-height: 1.9; color: var(--text2);
+  font-weight: 300; margin-bottom: 20px;
+}
+.about-img-wrap {
+  position: relative;
+}
+.about-img-frame {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px;
+  overflow: hidden;
+}
+.about-img-frame::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.about-img-frame img {
+  width: 100%; display: block;
+  filter: grayscale(30%) contrast(1.1);
+}
+.about-img-badge {
+  position: absolute; bottom: 24px; right: 24px;
+  background: var(--accent); color: #000;
+  font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+  padding: 10px 16px;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.tag {
+  font-family: var(--font-mono); font-size: .65rem;
+  border: 1px solid var(--border); color: var(--text2);
+  padding: 6px 14px; letter-spacing: .1em;
+  transition: border-color .2s, color .2s;
+}
+.tag:hover { border-color: var(--accent); color: var(--accent); }
 
-        .l3 {
-            top: 25%;
-            right: 10%;
-        }
+/* ── SKILLS ── */
+#skills { background: var(--bg2); padding: 100px 0; border-top: 1px solid var(--border); }
+.skills-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.section-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 64px; border-bottom: 1px solid var(--border); padding-bottom: 28px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.5rem);
+  font-weight: 700;
+}
+.section-num {
+  font-family: var(--font-mono); font-size: .65rem;
+  color: var(--muted); letter-spacing: .2em;
+}
 
-        .l4 {
-            top: 80%;
-            right: 15%;
-        }
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.skill-row {
+  background: var(--surface); padding: 24px 28px;
+  display: flex; align-items: center; gap: 20px;
+  border: 1px solid var(--border);
+  transition: background .2s, border-color .2s;
+  position: relative; overflow: hidden;
+}
+.skill-row:hover { background: #161616; border-color: var(--accent); }
+.skill-row:hover .skill-bar-fill { background: var(--accent); }
+.skill-icon-wrap {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: rgba(255,255,255,.04);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+}
+.skill-icon-wrap img { width: 26px; height: 26px; object-fit: contain; }
+.skill-info { flex: 1; }
+.skill-name {
+  font-family: var(--font-display); font-size: .8rem; font-weight: 700;
+  margin-bottom: 10px; letter-spacing: .05em;
+}
+.skill-bar-bg {
+  height: 3px; background: rgba(255,255,255,.07); border-radius: 2px; overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%; border-radius: 2px;
+  background: var(--text2);
+  transition: background .3s, width 1.2s ease;
+  width: 0;
+}
+.skill-pct {
+  font-family: var(--font-mono); font-size: .65rem;
+  color: var(--text2); min-width: 32px; text-align: right;
+}
+.skill-badge {
+  font-family: var(--font-mono); font-size: .55rem;
+  letter-spacing: .12em; padding: 3px 8px;
+  border-radius: 1px; font-weight: 700;
+  flex-shrink: 0;
+}
+.badge-expert { background: rgba(200,245,66,.15); color: var(--accent); border: 1px solid rgba(200,245,66,.3); }
+.badge-middle { background: rgba(255,165,0,.12); color: #ffa500; border: 1px solid rgba(255,165,0,.25); }
+.badge-beginner { background: rgba(255,94,31,.12); color: var(--accent2); border: 1px solid rgba(255,94,31,.25); }
 
-        .l5 {
-            top: 55%;
-            left: 45%;
-        }
+/* TOOLS ROW */
+.tools-row {
+  margin-top: 40px; display: flex; gap: 12px; flex-wrap: wrap;
+}
+.tool-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 8px 14px;
+  font-family: var(--font-mono); font-size: .65rem; color: var(--text2);
+  letter-spacing: .1em; transition: all .2s;
+}
+.tool-chip:hover { border-color: var(--accent); color: var(--text); }
+.tool-chip img { width: 16px; height: 16px; }
 
-        /* posisi tambahan logo */
-        .l6 {
-            top: 15%;
-            left: 70%;
-            animation-delay: 1s;
-        }
+/* ── PROJECTS ── */
+#projects { padding: 100px 0; border-top: 1px solid var(--border); }
+.projects-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
 
-        .l7 {
-            top: 55%;
-            left: 15%;
-            animation-delay: 2s;
-        }
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 
-        .l8 {
-            top: 35%;
-            left: 80%;
-            animation-delay: 3s;
-        }
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden; position: relative;
+  transition: border-color .3s, transform .3s;
+  display: flex; flex-direction: column;
+}
+.project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.project-card:hover .project-img { transform: scale(1.05); }
+.project-card:hover .proj-overlay { opacity: 1; }
+.project-card:hover .proj-arrow { transform: translate(0, 0); opacity: 1; }
 
-        .l9 {
-            top: 60%;
-            left: 75%;
-            animation-delay: 4s;
-        }
+.project-img-wrap { overflow: hidden; position: relative; height: 200px; }
+.project-img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; transition: transform .5s ease;
+  filter: grayscale(30%);
+}
+.proj-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(8,8,8,.9) 100%);
+  opacity: 0; transition: opacity .3s;
+}
+.proj-arrow {
+  position: absolute; bottom: 16px; right: 16px;
+  width: 40px; height: 40px; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  color: #000; font-size: .9rem;
+  transform: translate(8px, 8px); opacity: 0;
+  transition: transform .3s, opacity .3s;
+}
 
-        .l10 {
-            top: 20%;
-            left: 40%;
-            animation-delay: 5s;
-        }
+.project-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.project-num {
+  font-family: var(--font-mono); font-size: .6rem;
+  color: var(--muted); letter-spacing: .2em; margin-bottom: 10px;
+}
+.project-title {
+  font-family: var(--font-display); font-size: .95rem; font-weight: 700;
+  margin-bottom: 10px; line-height: 1.3;
+}
+.project-desc {
+  font-size: .82rem; color: var(--text2); line-height: 1.7;
+  font-weight: 300; margin-bottom: 20px; flex: 1;
+}
+.project-techs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.tech-tag {
+  font-family: var(--font-mono); font-size: .6rem;
+  color: var(--text2); border: 1px solid var(--border);
+  padding: 3px 8px; letter-spacing: .08em;
+}
+.project-links { display: flex; gap: 10px; }
+.proj-link {
+  font-family: var(--font-mono); font-size: .62rem;
+  color: var(--text2); text-decoration: none; letter-spacing: .1em;
+  display: flex; align-items: center; gap: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px; transition: color .2s, border-color .2s;
+}
+.proj-link:hover { color: var(--accent); border-color: var(--accent); }
 
-        .logo {
-            position: absolute;
-            width: 60px;
-            opacity: 0.15;
-            /* bikin transparan */
-            filter: grayscale(100%) brightness(0.9);
-            animation: float 6s ease-in-out infinite;
-            transition: 0.3s;
-            pointer-events: none;
-            /* biar cursor gak ke-distract */
-        }
+/* FEATURED PROJECT */
+.project-card.featured { grid-column: span 2; }
+.project-card.featured .project-img-wrap { height: 280px; }
 
-        .logo:hover {
-            opacity: 0.5;
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.15);
-        }
+/* ── CONTACT ── */
+#contact {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 100px 0;
+}
+.contact-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  margin-top: 64px;
+}
+.contact-left {
+  background: var(--accent); padding: 56px 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.contact-left-title {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 900; color: #000; line-height: 1.1;
+}
+.contact-left p {
+  color: rgba(0,0,0,.65); font-size: .9rem; margin-top: 16px; font-weight: 300;
+}
+.contact-info-list { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+.contact-info-item {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono); font-size: .72rem;
+  color: rgba(0,0,0,.7); letter-spacing: .05em;
+}
+.contact-info-item i { font-size: .85rem; color: #000; }
+.contact-right {
+  background: var(--surface); padding: 56px 48px;
+  border: 1px solid var(--border); border-left: none;
+}
+.contact-right-title {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+  margin-bottom: 32px; letter-spacing: .05em;
+}
+.sosmed-grid { display: flex; flex-direction: column; gap: 2px; }
+.sosmed-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; background: var(--bg2);
+  border: 1px solid var(--border); text-decoration: none;
+  color: var(--text); transition: background .2s, border-color .2s;
+}
+.sosmed-item:hover { background: #111; border-color: var(--accent); color: var(--accent); }
+.sosmed-left { display: flex; align-items: center; gap: 14px; }
+.sosmed-icon {
+  width: 36px; height: 36px; background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); font-size: .9rem;
+  transition: background .2s;
+}
+.sosmed-item:hover .sosmed-icon { background: rgba(200,245,66,.1); border-color: var(--accent); }
+.sosmed-name { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; }
+.sosmed-handle { font-size: .75rem; color: var(--text2); margin-top: 2px; }
+.sosmed-arrow { font-size: .7rem; color: var(--muted); transition: transform .2s, color .2s; }
+.sosmed-item:hover .sosmed-arrow { transform: translateX(4px); color: var(--accent); }
 
-        /* cursor kecil */
-        .cursor {
-            position: fixed;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: white;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 999;
-            transition: 0.2s ease;
-            display: none;
-        }
+/* ── QUOTES ── */
+#quotes {
+  padding: 80px 48px;
+  max-width: 1200px; margin: 0 auto;
+  text-align: center;
+}
+.quote-container { position: relative; padding: 48px 60px; }
+.quote-container::before,
+.quote-container::after {
+  content: '"';
+  font-family: var(--font-display); font-size: 8rem; line-height: 1;
+  color: rgba(200,245,66,.08); position: absolute;
+  font-weight: 900;
+}
+.quote-container::before { top: 0; left: 20px; }
+.quote-container::after { content: '"'; bottom: -40px; right: 20px; }
+#quote-text {
+  font-family: var(--font-display); font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-weight: 300; line-height: 1.6; color: var(--text);
+  transition: opacity .4s;
+}
+#quote-author {
+  font-family: var(--font-mono); font-size: .7rem; color: var(--accent);
+  letter-spacing: .2em; margin-top: 20px; display: block;
+}
+.quote-dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
+.quote-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); transition: background .3s, transform .3s;
+  cursor: none;
+}
+.quote-dot.active { background: var(--accent); transform: scale(1.3); }
 
-        /* aktifkan cursor hanya di desktop */
-        @media (pointer: fine) {
-            .cursor {
-                display: block;
-            }
-        }
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-family: var(--font-mono); font-size: .62rem; color: var(--muted); letter-spacing: .1em; }
+.footer-logo { font-family: var(--font-display); font-size: .75rem; font-weight: 700; color: var(--accent); }
 
-        /* cursor besar */
-        .cursor.big {
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-        }
+/* ── REVEAL ANIMATIONS ── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* SECTION SKILL */
-        .skill-section {
-            position: relative;
-            margin-top: -120px;
-            /* sedikit overlap ke hero */
-            z-index: 3;
-        }
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  #hero { grid-template-rows: 1fr auto; }
+  .hero-inner { padding: 110px 24px 50px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); padding: 0 24px; }
+  #about { grid-template-columns: 1fr; padding: 80px 24px; gap: 40px; }
+  .skills-inner { padding: 0 24px; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .projects-inner { padding: 0 24px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; }
+  .contact-inner { padding: 0 24px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-right { border-left: 1px solid var(--border); border-top: none; }
+  footer { flex-direction: column; gap: 12px; padding: 24px; text-align: center; }
+  #quotes { padding: 60px 24px; }
+}
 
-
-        /* avatar */
-        .avatar-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .avatar-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* skill box */
-        .skill-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        /* item */
-        .skill-item {
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        /* bar */
-        .bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ffe0, #00aaff);
-            border-radius: 10px;
-        }
-
-        /* level warna */
-        .level {
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 8px;
-        }
-
-        .level.expert {
-            background: #00ff9d33;
-            color: #00ff9d;
-        }
-
-        .level.middle {
-            background: #ffd00033;
-            color: #ffd000;
-        }
-
-        .level.beginner {
-            background: #ff4d4d33;
-            color: #ff4d4d;
-        }
-
-        /* MOBILE FIX */
-        @media (max-width: 768px) {
-            .skill-section {
-                position: relative;
-                bottom: unset;
-                margin-top: 40px;
-                transform: none;
-                padding: 0 15px;
-            }
-
-            body {
-                overflow-x: hidden;
-            }
-        }
-
-        .project-section {
-            margin-top: 80px;
-            padding-bottom: 80px;
-        }
-
-        /* card glass */
-        .project-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            transition: 0.3s ease;
-            height: 100%;
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
-        }
-
-        /* image */
-        .project-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        /* text */
-        .project-card h5 {
-            font-weight: 600;
-        }
-
-        .hero-section {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            /* ini kunci fix */
-            overflow: hidden;
-        }
-
-        /* CONTACT SECTION */
-        .contact-section {
-            background: #0f172a;
-            color: #fff;
-        }
-
-        .contact-card,
-        .sosmed-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-        }
-
-        .contact-card:hover,
-        .sosmed-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* SOSMED ITEM */
-        .sosmed-item {
-            display: block;
-            padding: 12px 16px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .sosmed-item:hover {
-            background: #6366f1;
-            transform: translateX(5px);
-        }
-
-        /* QUOTES */
-        .quotes-section {
-            background: linear-gradient(135deg, #020617, #0f172a);
-            color: #fff;
-        }
-
-        .quotes-box {
-            max-width: 600px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            font-size: 1.2rem;
-            transition: 0.3s;
-        }
-
-        .quotes-box:hover {
-            transform: scale(1.02);
-        }
-    </style>
-    <style>
-        #nama {
-            transition: opacity 0.5s ease;
-        }
-    </style>
-
+/* floating logos removed — replaced with cleaner design */
+</style>
 </head>
-
 <body>
 
-    <section class="hero-section">
-        <div class="bg-ambient"></div>
+<div class="noise"></div>
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
 
-        <!-- floating logos -->
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" class="logo l1">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-            class="logo l2">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" class="logo l3">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" class="logo l4">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="logo l5">
-        <!-- tambahan logo -->
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
-            class="logo l6">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" class="logo l7">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="logo l8">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" class="logo l9">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
-            class="logo l10">
-        <div class="center-text" id="mainText">
-            Iya ini aku <span id="nama">"Alfarisi"</span>
-        </div>
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">AA/</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="nav-badge">AVAILABLE FOR HIRE</span>
+</nav>
 
-        <script>
-            const names = [
-                '"Arufaa"',
-                '"Faris"',
-                '"Ahmad"',
-                '"Ahmad Alfarisi"',
-                '"Apa lagi"'
-            ];
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
 
-            let index = 0;
-            const namaEl = document.getElementById("nama");
-
-            setInterval(() => {
-                namaEl.style.opacity = 0;
-
-                setTimeout(() => {
-                    index = (index + 1) % names.length;
-                    namaEl.textContent = names[index];
-                    namaEl.style.opacity = 1;
-                }, 500);
-
-            }, 2000);
-        </script>
-
-
-    </section>
-
-    <div class="skill-section container">
-        <div class="row justify-content-center align-items-center g-4">
-
-            <!-- FOTO -->
-            <div class="col-12 col-md-4 text-center">
-                <div class="avatar-box">
-                    <img src="image1.jpeg" class="avatar-img">
-                    <h5 class="mt-3">Alfaaaaaaaa</h5>
-                    <small class="text-secondary">Fullstack Developer</small>
-                </div>
-            </div>
-
-            <!-- SKILL -->
-            <div class="col-12 col-md-6">
-                <div class="skill-box">
-
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Laravel</span>
-                            <span class="level expert">Expert</span>
-                        </div>
-                        <div class="bar">
-                            <div class="fill" style="width: 90%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>JavaScript</span>
-                            <span class="level middle">Middle</span>
-                        </div>
-                        <div class="bar">
-                            <div class="fill" style="width: 65%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Bootstrap</span>
-                            <span class="level middle">Middle</span>
-                        </div>
-                        <div class="bar">
-                            <div class="fill" style="width: 70%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="d-flex justify-content-between">
-                            <span>DevOps / VPS</span>
-                            <span class="level beginner">Beginner</span>
-                        </div>
-                        <div class="bar">
-                            <div class="fill" style="width: 40%"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Fullstack Developer — Based in Karanganyar, ID</div>
+    <h1 class="hero-name">
+      <div class="line1">Ahmad</div>
+      <div class="line2">Alfarisi</div>
+      <div class="line3">Portfolio</div>
+    </h1>
+    <p class="hero-desc">
+      Membangun aplikasi web yang fungsional, bersih, dan scalable. Dari backend Laravel sampai UI yang terasa hidup.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary-custom">View Projects ↓</a>
+      <a href="#contact" class="btn-outline-custom">Get in Touch →</a>
     </div>
-    <section class="project-section container py-5">
+  </div>
 
-        <h2 class="text-center mb-5 fw-bold">🚀 My Projects</h2>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num" data-count="6">0</div>
+      <div class="stat-label">PROJECTS BUILT</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="3">0</div>
+      <div class="stat-label">YEARS EXPERIENCE</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="90">0</div>
+      <div class="stat-label">LARAVEL PROFICIENCY</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="4">0</div>
+      <div class="stat-label">FRAMEWORKS USED</div>
+    </div>
+  </div>
+</section>
 
-        <div class="row g-4">
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><span>★</span> Laravel</div>
+    <div class="marquee-item"><span>★</span> PHP</div>
+    <div class="marquee-item"><span>★</span> JavaScript</div>
+    <div class="marquee-item"><span>★</span> MySQL</div>
+    <div class="marquee-item"><span>★</span> Bootstrap</div>
+    <div class="marquee-item"><span>★</span> Tailwind</div>
+    <div class="marquee-item"><span>★</span> Git</div>
+    <div class="marquee-item"><span>★</span> Linux/VPS</div>
+    <div class="marquee-item"><span>★</span> CodeIgniter</div>
+    <div class="marquee-item"><span>★</span> PostgreSQL</div>
+    <div class="marquee-item"><span>★</span> REST API</div>
+    <div class="marquee-item"><span>★</span> AJAX</div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span>★</span> Laravel</div>
+    <div class="marquee-item"><span>★</span> PHP</div>
+    <div class="marquee-item"><span>★</span> JavaScript</div>
+    <div class="marquee-item"><span>★</span> MySQL</div>
+    <div class="marquee-item"><span>★</span> Bootstrap</div>
+    <div class="marquee-item"><span>★</span> Tailwind</div>
+    <div class="marquee-item"><span>★</span> Git</div>
+    <div class="marquee-item"><span>★</span> Linux/VPS</div>
+    <div class="marquee-item"><span>★</span> CodeIgniter</div>
+    <div class="marquee-item"><span>★</span> PostgreSQL</div>
+    <div class="marquee-item"><span>★</span> REST API</div>
+    <div class="marquee-item"><span>★</span> AJAX</div>
+  </div>
+</div>
 
-            <!-- Project 1 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="richzspot.png" class="project-img">
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="about-label">// 01 — ABOUT ME</div>
+    <h2 class="about-heading">Building the web,<br><em>one commit</em> at a time.</h2>
+    <p class="about-text">
+      Saya Ahmad Alfarisi — seorang Fullstack Developer yang fokus pada pengembangan aplikasi web berbasis Laravel dan PHP. Saya senang mengerjakan sistem yang kompleks mulai dari ERP, CRM, hingga aplikasi absensi dan voucher management.
+    </p>
+    <p class="about-text">
+      Selain backend, saya juga comfortable di frontend — memastikan UI tidak hanya fungsional tapi juga enak dipakai. Saat ini aktif explore DevOps dan deployment ke VPS Linux.
+    </p>
+    <div class="about-tags">
+      <span class="tag">Problem Solver</span>
+      <span class="tag">Clean Code</span>
+      <span class="tag">RESTful API</span>
+      <span class="tag">Database Design</span>
+      <span class="tag">Agile Mindset</span>
+    </div>
+  </div>
 
-                    <div class="p-3">
-                        <h5>System Absensi App - RichzSpot</h5>
-                        <p class="small text-secondary">
-                            Aplikasi absensi berbasis web dengan fitur voucher, tracking realtime, dan laporan otomatis.
-                        </p>
+  <div class="reveal about-img-wrap">
+    <div class="about-img-frame">
+      <img src="image1.jpeg" alt="Ahmad Alfarisi" onerror="this.src='https://placehold.co/600x700/141414/888?text=Ahmad+Alfarisi'">
+      <div class="about-img-badge">FULLSTACK DEV</div>
+    </div>
+  </div>
+</section>
 
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Laravel</span>
-                            <span class="badge bg-info text-dark">Bootstrap</span>
-                            <span class="badge bg-warning text-dark">MySQL</span>
-                        </div>
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-inner">
+    <div class="section-header reveal">
+      <h2 class="section-title">Tech Stack</h2>
+      <span class="section-num">// 02 — SKILLS</span>
+    </div>
 
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="https://picsum.photos/500/300?sig=2" class="project-img">
-
-                    <div class="p-3">
-                        <h5>Topup & Voucher System</h5>
-                        <p class="small text-secondary">
-                            Sistem topup digital dengan validasi voucher otomatis dan generator invoice untuk transaksi
-                            online.
-                        </p>
-
-                        <div class="mb-2">
-                            <span class="badge bg-success">PHP Native</span>
-                            <span class="badge bg-warning text-dark">JavaScript</span>
-                            <span class="badge bg-info text-dark">Bootstrap</span>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="erp_gbp.png" class="project-img">
-
-                    <div class="p-3">
-                        <h5>ERP System</h5>
-                        <p class="small text-secondary">
-                            Enterprise Resource Planning untuk manajemen inventory, penjualan, dan laporan bisnis secara
-                            realtime.
-                        </p>
-
-                        <div class="mb-2">
-                            <span class="badge bg-primary">CI 3</span>
-                            <span class="badge bg-dark">Linux</span>
-                            <span class="badge bg-secondary">VPS</span>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 4 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="crm.png" class="project-img">
-
-                    <div class="p-3">
-                        <h5>CRM - Customer Relationship Management</h5>
-                        <p class="small text-secondary">
-                            Aplikasi CRM untuk mengelola data pelanggan, interaksi, dan laporan performa tim sales.
-                        </p>
-
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Laravel</span>
-                            <span class="badge bg-info text-dark">Bootstrap</span>
-                            <span class="badge bg-warning text-dark">MySQL</span>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 5 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="logbook.png" class="project-img">
-
-                    <div class="p-3">
-                        <h5>Log Book</h5>
-                        <p class="small text-secondary">
-                            A task-tracking and reporting platform designed for internal team use. It enables employees
-                            to log daily work, submit progress updates, and view weekly reports. Built with PHP native
-                            and optimized with AJAX.
-
-
-                        </p>
-
-                        <div class="mb-2">
-                            <span class="badge bg-primary">CI 3</span>
-                            <span class="badge bg-warning text-dark">Bootstrap</span>
-                            <span class="badge bg-success">MySQL</span>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 6 -->
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="project-card">
-                    <img src="crm.png" class="project-img">
-
-                    <div class="p-3">
-                        <h5>CMS - Content Management System</h5>
-                        <p class="small text-secondary">
-                            Sistem CMS sederhana untuk mengelola konten website, halaman, dan artikel dengan
-                            user-friendly dashboard.
-                        </p>
-
-                        <div class="mb-2">
-                            <span class="badge bg-primary">CI 3</span>
-                            <span class="badge bg-info text-dark">Bootstrap</span>
-                            <span class="badge bg-success">PostgreSQL</span>
-                        </div>
-
-                        <div class="d-flex gap-2">
-                            <a href="#" class="btn btn-sm btn-outline-light">Demo</a>
-                            <a href="#" class="btn btn-sm btn-outline-info">Github</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    <div class="skills-grid reveal">
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg">
         </div>
-    </section>
-    <section class="contact-section py-5">
-        <div class="container">
-            <div class="row g-4">
-
-                <!-- Contact -->
-                <div class="col-md-6">
-                    <div class="contact-card p-4 h-100">
-                        <h3 class="mb-3">Contact Me</h3>
-                        <p>Kalau kamu tertarik kerja sama atau ingin diskusi project, feel free hubungi saya.</p>
-
-                        <ul class="list-unstyled mt-4">
-                            <li>📧 Email: aalfarss173@gmail.com</li>
-                            <li>📱 WhatsApp: +62 812 xxxx xxxx</li>
-                            <li>📍 Location: Karanganyar,Jawa tengah</li>
-                        </ul>
-
-                        <a href="#" class="btn btn-primary mt-3">Text Me</a>
-                    </div>
-                </div>
-
-                <!-- Sosial Media -->
-                <div class="col-md-6">
-                    <div class="sosmed-card p-4 h-100">
-                        <h3 class="mb-3">Follow Me</h3>
-                        <p>Temukan saya di platform berikut:</p>
-
-                        <div class="d-flex flex-column gap-3 mt-4">
-                            <a href="#" class="sosmed-item"><i class="fas fa-globe"></i> Website</a>
-                            <a href="https://www.linkedin.com/in/ahmad-alfarisi-/" class="sosmed-item"><i
-                                    class="fab fa-linkedin"></i> LinkedIn</a>
-                            <a href="https://github.com/Aalfars" class="sosmed-item"><i class="fab fa-github"></i>
-                                GitHub</a>
-                            <a href="https://www.instagram.com/aalfars_/" target="_blank" class="sosmed-item"><i
-                                    class="fab fa-instagram"></i> Instagram</a>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="skill-info">
+          <div class="skill-name">Laravel</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90"></div></div>
         </div>
-    </section>
-    <section class="quotes-section py-5 text-center">
-        <div class="container">
-            <div class="quotes-box mx-auto p-4">
-                <p id="quote-text" class="mb-3">
-                    "Code is like humor. When you have to explain it, it’s bad."
-                </p>
-                <small id="quote-author">– Cory House</small>
-            </div>
+        <div class="skill-pct">90%</div>
+        <span class="skill-badge badge-expert">EXPERT</span>
+      </div>
+
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg">
         </div>
-    </section>
+        <div class="skill-info">
+          <div class="skill-name">PHP Native</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-pct">85%</div>
+        <span class="skill-badge badge-expert">EXPERT</span>
+      </div>
 
-    <!-- cursor -->
-    <div class="cursor" id="cursor"></div>
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+        </div>
+        <div class="skill-info">
+          <div class="skill-name">JavaScript</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+        <div class="skill-pct">65%</div>
+        <span class="skill-badge badge-middle">MIDDLE</span>
+      </div>
 
-    <script>
-        const cursor = document.getElementById("cursor");
-        const text = document.getElementById("mainText");
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg">
+        </div>
+        <div class="skill-info">
+          <div class="skill-name">MySQL / PostgreSQL</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="75"></div></div>
+        </div>
+        <div class="skill-pct">75%</div>
+        <span class="skill-badge badge-middle">MIDDLE</span>
+      </div>
 
-        // hanya aktif di desktop
-        if (window.matchMedia("(pointer: fine)").matches) {
-            document.addEventListener("mousemove", e => {
-                cursor.style.top = e.clientY + "px";
-                cursor.style.left = e.clientX + "px";
-            });
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg">
+        </div>
+        <div class="skill-info">
+          <div class="skill-name">Bootstrap / Tailwind</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-pct">70%</div>
+        <span class="skill-badge badge-middle">MIDDLE</span>
+      </div>
 
-            text.addEventListener("mouseenter", () => {
-                cursor.classList.add("big");
-            });
+      <div class="skill-row">
+        <div class="skill-icon-wrap">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+        </div>
+        <div class="skill-info">
+          <div class="skill-name">DevOps / Linux VPS</div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="40"></div></div>
+        </div>
+        <div class="skill-pct">40%</div>
+        <span class="skill-badge badge-beginner">LEARNING</span>
+      </div>
+    </div>
 
-            text.addEventListener("mouseleave", () => {
-                cursor.classList.remove("big");
-            });
-        }
+    <div class="tools-row reveal">
+      <div class="tool-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"> Git</div>
+      <div class="tool-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"> VS Code</div>
+      <div class="tool-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"> PostgreSQL</div>
+      <div class="tool-chip"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"> Tailwind</div>
+      <div class="tool-chip">⚡ AJAX / Fetch</div>
+      <div class="tool-chip">📦 Composer / npm</div>
+      <div class="tool-chip">🔗 REST API</div>
+      <div class="tool-chip">🐧 Ubuntu Server</div>
+    </div>
+  </div>
+</section>
 
-    </script>
-    <script>
-        const cards = document.querySelectorAll('.project-card');
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-inner">
+    <div class="section-header reveal">
+      <h2 class="section-title">Selected Work</h2>
+      <span class="section-num">// 03 — PROJECTS</span>
+    </div>
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
-        });
+    <div class="projects-grid">
 
-        cards.forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = "translateY(40px)";
-            card.style.transition = "all 0.6s ease";
-            observer.observe(card);
-        });
-    </script>
-    <script>
-        const quotes = [
-            {
-                text: "Code is like humor. When you have to explain it, it’s bad.",
-                author: "Cory House"
-            },
-            {
-                text: "First, solve the problem. Then, write the code.",
-                author: "John Johnson"
-            },
-            {
-                text: "Experience is the name everyone gives to their mistakes.",
-                author: "Oscar Wilde"
-            },
-            {
-                text: "Fix the cause, not the symptom.",
-                author: "Steve Maguire"
-            },
-            {
-                text: "Make it work, make it right, make it fast.",
-                author: "Kent Beck"
-            }
-        ];
+      <!-- FEATURED -->
+      <div class="project-card featured reveal">
+        <div class="project-img-wrap">
+          <img src="richzspot.png" class="project-img" onerror="this.src='https://placehold.co/800x280/141414/555?text=RichzSpot+Absensi'">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">001 — FEATURED</div>
+          <h3 class="project-title">System Absensi App — RichzSpot</h3>
+          <p class="project-desc">Aplikasi absensi berbasis web dengan fitur voucher, tracking realtime, dan laporan otomatis. Digunakan aktif oleh tim internal untuk monitoring kehadiran dan generate laporan harian.</p>
+          <div class="project-techs">
+            <span class="tech-tag">Laravel</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">AJAX</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Source Code</a>
+          </div>
+        </div>
+      </div>
 
-        let index = 0;
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="erp_gbp.png" class="project-img" onerror="this.src='https://placehold.co/400x200/141414/555?text=ERP+System'">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">002</div>
+          <h3 class="project-title">ERP System</h3>
+          <p class="project-desc">Enterprise Resource Planning untuk manajemen inventory, penjualan, dan laporan bisnis secara realtime. Deploy di VPS Linux.</p>
+          <div class="project-techs">
+            <span class="tech-tag">CodeIgniter 3</span>
+            <span class="tech-tag">Linux</span>
+            <span class="tech-tag">VPS</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Github</a>
+          </div>
+        </div>
+      </div>
 
-        setInterval(() => {
-            index = (index + 1) % quotes.length;
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="crm.png" class="project-img" onerror="this.src='https://placehold.co/400x200/141414/555?text=CRM+System'">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">003</div>
+          <h3 class="project-title">CRM System</h3>
+          <p class="project-desc">Aplikasi CRM untuk mengelola data pelanggan, interaksi, dan laporan performa tim sales secara terpusat.</p>
+          <div class="project-techs">
+            <span class="tech-tag">Laravel</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">MySQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Github</a>
+          </div>
+        </div>
+      </div>
 
-            document.getElementById("quote-text").innerText = `"${quotes[index].text}"`;
-            document.getElementById("quote-author").innerText = `– ${quotes[index].author}`;
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="logbook.png" class="project-img" onerror="this.src='https://placehold.co/400x200/141414/555?text=Logbook+App'">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">004</div>
+          <h3 class="project-title">Log Book System</h3>
+          <p class="project-desc">Platform tracking pekerjaan harian tim internal. Karyawan bisa log aktivitas, submit progress, dan lihat laporan mingguan dengan AJAX live update.</p>
+          <div class="project-techs">
+            <span class="tech-tag">CodeIgniter 3</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">AJAX</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Github</a>
+          </div>
+        </div>
+      </div>
 
-        }, 4000);
-    </script>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="https://placehold.co/400x200/141414/555?text=Topup+System" class="project-img">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">005</div>
+          <h3 class="project-title">Topup & Voucher System</h3>
+          <p class="project-desc">Sistem topup digital dengan validasi voucher otomatis dan generator invoice untuk transaksi online.</p>
+          <div class="project-techs">
+            <span class="tech-tag">PHP Native</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Bootstrap</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Github</a>
+          </div>
+        </div>
+      </div>
 
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="crm.png" class="project-img" onerror="this.src='https://placehold.co/400x200/141414/555?text=CMS+System'">
+          <div class="proj-overlay"></div>
+          <div class="proj-arrow"><i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="project-body">
+          <div class="project-num">006</div>
+          <h3 class="project-title">CMS Dashboard</h3>
+          <p class="project-desc">Sistem CMS untuk mengelola konten website, halaman, dan artikel dengan dashboard user-friendly dan multi-role access.</p>
+          <div class="project-techs">
+            <span class="tech-tag">CodeIgniter 3</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">PostgreSQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="proj-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            <a href="#" class="proj-link"><i class="fab fa-github"></i> Github</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-header reveal">
+      <h2 class="section-title">Let's Work Together</h2>
+      <span class="section-num">// 04 — CONTACT</span>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-left">
+        <div>
+          <div class="contact-left-title">Have a project<br>in mind?</div>
+          <p>Let's build something great together. Saya terbuka untuk freelance, kolaborasi, maupun diskusi project.</p>
+        </div>
+        <div class="contact-info-list">
+          <div class="contact-info-item"><i class="fas fa-envelope"></i> aalfarss173@gmail.com</div>
+          <div class="contact-info-item"><i class="fab fa-whatsapp"></i> +62 812 xxxx xxxx</div>
+          <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i> Karanganyar, Jawa Tengah</div>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <div class="contact-right-title">Find me on</div>
+        <div class="sosmed-grid">
+          <a href="#" class="sosmed-item">
+            <div class="sosmed-left">
+              <div class="sosmed-icon"><i class="fas fa-globe"></i></div>
+              <div>
+                <div class="sosmed-name">WEBSITE</div>
+                <div class="sosmed-handle">arufaa.my.id</div>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right sosmed-arrow"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/ahmad-alfarisi-/" class="sosmed-item" target="_blank">
+            <div class="sosmed-left">
+              <div class="sosmed-icon"><i class="fab fa-linkedin"></i></div>
+              <div>
+                <div class="sosmed-name">LINKEDIN</div>
+                <div class="sosmed-handle">ahmad-alfarisi</div>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right sosmed-arrow"></i>
+          </a>
+          <a href="https://github.com/Aalfars" class="sosmed-item" target="_blank">
+            <div class="sosmed-left">
+              <div class="sosmed-icon"><i class="fab fa-github"></i></div>
+              <div>
+                <div class="sosmed-name">GITHUB</div>
+                <div class="sosmed-handle">@Aalfars</div>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right sosmed-arrow"></i>
+          </a>
+          <a href="https://www.instagram.com/aalfars_/" class="sosmed-item" target="_blank">
+            <div class="sosmed-left">
+              <div class="sosmed-icon"><i class="fab fa-instagram"></i></div>
+              <div>
+                <div class="sosmed-name">INSTAGRAM</div>
+                <div class="sosmed-handle">@aalfars_</div>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right sosmed-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES -->
+<div id="quotes">
+  <div class="quote-container reveal">
+    <p id="quote-text">"Code is like humor. When you have to explain it, it's bad."</p>
+    <small id="quote-author">— Cory House</small>
+    <div class="quote-dots">
+      <div class="quote-dot active"></div>
+      <div class="quote-dot"></div>
+      <div class="quote-dot"></div>
+      <div class="quote-dot"></div>
+      <div class="quote-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">AA/</span>
+  <span class="footer-copy">© 2025 Ahmad Alfarisi — Fullstack Developer</span>
+  <span class="footer-copy">Built with ❤️ + Laravel Spirit</span>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const dot = document.getElementById('curDot');
+const ring = document.getElementById('curRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+if (window.matchMedia('(pointer: fine)').matches) animCursor();
+else { dot.style.display = 'none'; ring.style.display = 'none'; document.body.style.cursor = 'auto'; }
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+});
+
+/* ── COUNTER ANIMATION ── */
+function animCount(el, target, suffix='') {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current) + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+const counters = document.querySelectorAll('[data-count]');
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const t = +el.dataset.count;
+      const suf = el.dataset.suffix || (el.parentElement.querySelector('.stat-label').textContent.includes('PROFICIENCY') ? '%' : '+');
+      animCount(el, t, suf);
+      counterObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObs.observe(c));
+
+/* ── SKILL BAR ANIMATION ── */
+const bars = document.querySelectorAll('.skill-bar-fill');
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.width = e.target.dataset.width + '%';
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+bars.forEach(b => barObs.observe(b));
+
+/* ── REVEAL ON SCROLL ── */
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), 0);
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(r => revealObs.observe(r));
+
+/* ── QUOTES ── */
+const quotes = [
+  { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
+  { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+  { text: "Experience is the name everyone gives to their mistakes.", author: "Oscar Wilde" },
+  { text: "Fix the cause, not the symptom.", author: "Steve Maguire" },
+  { text: "Make it work, make it right, make it fast.", author: "Kent Beck" }
+];
+let qi = 0;
+const qText = document.getElementById('quote-text');
+const qAuth = document.getElementById('quote-author');
+const dots = document.querySelectorAll('.quote-dot');
+function setQuote(i) {
+  qText.style.opacity = 0;
+  setTimeout(() => {
+    qText.textContent = `"${quotes[i].text}"`;
+    qAuth.textContent = `— ${quotes[i].author}`;
+    qText.style.opacity = 1;
+    dots.forEach((d,j) => d.classList.toggle('active', j===i));
+  }, 400);
+}
+dots.forEach((d,i) => d.addEventListener('click', () => { qi = i; setQuote(i); }));
+setInterval(() => { qi = (qi + 1) % quotes.length; setQuote(qi); }, 5000);
+
+/* ── HERO NAME CYCLING (subtle) ── */
+const names = ['"Alfarisi"', '"Arufaa"', '"Faris"', '"Ahmad"', '"Ahmad Alfarisi"'];
+// Keep as static — name is now in hero heading for clarity
+</script>
 </body>
-
 </html>
-
